@@ -1,0 +1,1736 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.Threading;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+
+
+//public static class Extensions
+//{
+//    public static int FindIndex<T>(this List<T> list, T item)
+//    {
+//        EqualityComparer<T> comparer = EqualityComparer<T>.Default;
+//        for (int i = 0; i < list.Count; i++)
+//        {
+//            if (comparer.Equals(list[i], item))
+//            {
+//                return i;
+//            }
+//        }
+
+//        return -1;
+//    }
+//}
+
+
+
+namespace WinFormsApp1
+{
+
+    //namespace CustomExtensions
+    //{
+    //    // Extension methods must be defined in a static class.
+    //    public static class Extensions
+    //    {
+    //        public static int FindIndex<T>(this List<T> list, T item)
+    //        {
+    //            EqualityComparer<T> comparer = EqualityComparer<T>.Default;
+    //            for (int i = 0; i < list.Count; i++)
+    //            {
+    //                if (comparer.Equals(list[i], item))
+    //                {
+    //                    return i;
+    //                }
+    //            }
+
+    //            return -1;
+    //        }
+    //    }
+    //}
+
+    public partial class GenerateBatchCommand : Form
+    {
+
+        
+        public GenerateBatchCommand()
+        {
+            InitializeComponent();
+            textBox1_caleNas.Click += TextBoxOnClick;
+            
+
+
+        }
+       
+        //System.String front1;
+        //string front1;
+        string caleAbsDataJsonFile { get; set; }
+        //string id { get; set; }
+        string front1Plus { get; set; }
+        string front2Plus { get; set; }
+        string front3Plus { get; set; }
+        string front4Plus { get; set; }
+        string front5Plus { get; set; }
+        string front6Plus { get; set; }
+        string front7Plus { get; set; }
+        string front1 { get; set; }
+        string front2 { get; set; }
+        string front3 { get; set; }
+        string front4 { get; set; }
+        string front5 { get; set; }
+        string front6 { get; set; }
+        string front7 { get; set; }
+        string caleData { get; set; }
+        string caleAbsData { get; set; }
+        string caleAbsDataJson { get; set; }
+        string caleAbsDataPDF { get; set; }
+
+        string caleAbsDataPDF_M { get; set; }
+        string caleAbsDataJson_M { get; set; }
+
+
+
+
+
+
+        string[] pdflist { get; set; }
+        string[] jsonList { get; set; }
+
+
+
+        string varJsonName { get; set; }
+        string varJsonName1 { get; set; }
+        string varArtName { get; set; } // fileName.IndexOf('.') //myString.Substring(myString.Length-3)
+        string varMapping { get; set; }
+        string varArt { get; set; }
+        string varDPI { get; set; }
+        string varTexture { get; set; }
+        string varWtempfolder { get; set; }
+        string varDpivar { get; set; }
+        string varTexturevar { get; set; }
+        string varNocachevar { get; set; }
+        string varOverrideDPIvar { get; set; }
+        string varnoCompositeCache { get; set; }
+        string varOutputTextvar { get; set; }
+        // varOutputText
+        string varOutputText { get; set; }
+
+
+        string[] parteaNumePdf { get; set; }
+        string[] numeFatza { get; set; }
+
+        string parteaNumeTOATEPdf { get; set; }
+        //string[] numeFatza = new string[5];
+
+
+        int lungimelistapdf { get; set; } //pdflist.Length
+                                          //label4_info.Text = lungimelistapdf.ToString();
+        int day { get; set; }
+
+
+        string Culoare1 { get; set; }
+        string Culoare2 { get; set; }
+        string Culoare3 { get; set; }
+        string Culoare4 { get; set; }
+
+        string Culoare1Lichid { get; set; }
+        string Culoare2Lichid { get; set; }
+        string Culoare3Lichid { get; set; }
+        string Culoare4Lichid { get; set; }
+
+
+        string Lichid1 { get; set; }
+        string Lichid2 { get; set; }
+        string Lichid3 { get; set; }
+        string Lichid4 { get; set; }
+
+
+
+        string ParteaLichid { get; set; }
+        string ParteaBody { get; set; }
+
+        string BodyHas1 { get; set; }
+        string BodyHas2 { get; set; }
+        string BodyHas3 { get; set; }
+        string BodyHas4 { get; set; }
+
+        string[] ArBodyNone { get; set; } //
+        string[] ArBody { get; set; }
+        string[] ArCuloare { get; set; }
+
+
+        string[] ArLichidNone { get; set; } //
+        string[] ArLichid { get; set; }
+        string[] ArCuloareLichid { get; set; }
+        string[] arrayIDdinJson { get; set; }
+        string[] arrayIDColorsdinJson { get; set; }
+        string[] stringNumefatzaDinJson { get; set; }
+
+        int contorGeneral { get; set; }
+        int contorFronturi { get; set; }
+        int contorBody { get; set; }
+        int contorLichid { get; set; }
+        int contorBodyColor { get; set; }
+        int contorLichidColor { get; set; }
+
+        string[] nameBodyNr { get; set; }
+        
+        string[] nameCuloriNr { get; set; }
+        
+        string vardisableTiledProcessing { get; set; }
+
+        public void VerificaCheckboxCale()
+        {
+            if (!checkBox1_JobOnNas.Checked && textBox1_caleNas.Text.Contains("d:\\local_job")) //checkBox1_JobOnNas  //  d:\local_job or nas\\grip\shapes
+            {
+
+                OpenFileDialog v1 = new OpenFileDialog();
+               // string path; // this is the path that you are checking.
+                caleAbsData = textBox1_caleNas.Text;
+
+                if (Directory.Exists(caleAbsData))
+                {
+                    v1.InitialDirectory = caleAbsData;
+                }
+                else
+                {
+                    v1.InitialDirectory = @"D:\AWtoolDATA\";
+                }
+
+
+                
+                v1.Filter = "Json files (*.json)|*.json|All files (*.*)|*.*";
+                if (v1.ShowDialog() == DialogResult.OK)
+
+                {
+
+                    //caleAbsData = Path.GetFullPath(v1.FileName);
+                    caleAbsDataJsonFile = Path.GetFullPath(v1.FileName);
+                    caleAbsData = Path.GetDirectoryName(v1.FileName) + "\\";
+                    label6_exdepath.Text = caleAbsData; // Path.GetFileName(v1.FileName);
+                    label7_infoFilesLocation.Text = "All files on LOCAL";
+                    string tempNameCale = v1.FileName;
+
+                    // caleAbsData = tempNameCale.Replace(label7_infoFilesLocation.Text, "");
+
+                    // MessageBox.Show($"caleAbsData = {caleAbsData}");
+
+                    textBox1_caleNas.Text = caleAbsData;
+                }
+
+                //caleAbsData = "D:\\AWtoolDATA\\"; //\\nas\GRIP\shapes\maybelline\01977 - PF_200180288\  //MessageBox.Show($"soon");
+
+                // caleAbsData = textBox1_caleNas.Text;
+                //MessageBox.Show($"cale data = {caleAbsData}");
+                caleAbsDataJson = caleAbsData;
+                caleAbsDataPDF = caleAbsData;
+                caleAbsDataJson_M = "\"" + caleAbsData;
+
+                caleAbsDataPDF_M = "\"" + caleAbsData;
+
+                //caleAbsDataJson = caleAbsData+"artworks\\mapping\\";
+                //caleAbsDataPDF = caleAbsData+"artworks\\PDF\\";
+                //label6_exdepath.Text = caleAbsData;
+                //label7_infoFilesLocation.Text = "All files on LOCAL";
+
+
+            }
+            if (checkBox1_JobOnNas.Checked)
+            {
+                caleAbsData = "D:\\AWtoolDATA\\";
+                //MessageBox.Show($"cale data = {caleAbsData}");
+                caleAbsDataJson = caleAbsData;
+                caleAbsDataPDF = caleAbsData;
+
+                caleData = "\"../AWtoolDATA/";
+
+                caleAbsDataJson_M = caleData;
+
+                caleAbsDataPDF_M = caleData;
+
+                textBox1_caleNas.Text = caleAbsData;
+                label6_exdepath.Text = caleAbsData;
+                label7_infoFilesLocation.Text = "All files on AWtoolDATA";
+
+                //caleAbsDataJsonFile
+
+
+            }
+        }
+
+
+        public void AdunaData()
+        {
+
+            //front1 = "dfasdfasdf"; //---
+            front1 = comboBox1Id.SelectedValue.ToString();
+            
+            
+            //front1 = comboBox1Id.SelectedItem.ToString(); //
+            front2 = comboBox2Id.SelectedValue.ToString();
+            front3 = comboBox3Id.SelectedValue.ToString();
+            front4 = comboBox4Id.SelectedValue.ToString();
+            front5 = comboBox5Id.SelectedValue.ToString();
+            front6 = comboBox6Id.SelectedValue.ToString();
+            front7 = comboBox7Id.SelectedValue.ToString();
+
+           // label4_info.Text = front1;
+            //MessageBox.Show((String.Format("fornt1 este {0}", front1)));
+            //  MessageBox.Show($"{front1}, {front2}, {front3}, {front4}, {front5}");
+
+
+            numeFatza = new string[] { front1, front2, front3, front4, front5, front6, front7 };
+
+            //caleAbsData = "D:\\AWtoolDATA\\"; //D:\AWtoolDATA\
+
+            // caleData = "\"../AWtoolDATA/"; // localul PENTRU COMANDA!!!
+
+            // VerificaCheckboxCale();
+            //// aici era if check box
+
+
+            pdflist = listPdfs.Items.OfType<string>().ToArray();
+            lungimelistapdf = pdflist.Count<string>();
+            //for (int i=0; i<= lungimelistapdf; i++) {
+            //    parteaNumePdf[i] = pdflist[i];
+            //        }
+
+            jsonList = listJson.Items.OfType<string>().ToArray();
+
+            //string varPdf =  fatza1+ "=" + caleData + pdflist[0]+ "\"";
+
+            varJsonName = jsonList[0];
+            //caleAbsDataJsonFile = caleAbsDataJson + varJsonName;
+            varJsonName1 = varJsonName.Replace("-mapping.json", "");
+            varArtName = varJsonName1 + "-art.png"; // fileName.IndexOf('.') //myString.Substring(myString.Length-3)
+
+            varMapping = "-m " + caleAbsDataJson_M + varJsonName + "\""; // de pus cale nas
+
+            //varArt = " -o " + "\"../AWtoolDATA/" + varArtName + "\""; // png art finalul //caleAbsData
+            varArt = " -o " + "\"" + caleAbsData + varArtName + "\""; // png art finalul //
+
+            varDPI = comboBox_Dpi.SelectedItem.ToString();
+            varTexture = comboBox_Texture.SelectedItem.ToString();
+            //varWtempfolder = " -w " + "\"../AWtoolDATA/" + "temp" + "\"";
+            varWtempfolder = " -w " + "\"" + caleAbsData + "temp" + "\"";
+            varDpivar = " -d " + "\"" + varDPI + "\"";
+            varTexturevar = " -t " + "\"" + varTexture + "\"";
+            //varNocachevar = " --noCache ";
+            //varOverrideDPIvar = " --overrideDPI ";
+            //varOutputTextvar = " |& tee -a"+" ../AWtoolDATA/"+"output.txt";
+            varOutputText = " |& tee -a " + "\"" +  caleAbsData + "output.txt" + "\"" ;
+            executaListaPdf();
+        }
+
+        public void executaListaPdf()
+        {
+
+
+            parteaNumePdf = new string[] { numeFatza[0] + "=" + caleAbsDataPDF_M + pdflist[0] + "\"" };
+            for (int i = 1; i < pdflist.Length; i++)
+
+            {
+                //numeFatza = new string[] { front1, front2, front3, front4, front5 };
+
+                parteaNumePdf = parteaNumePdf.Concat(new string[] { numeFatza[i] + "=" + caleAbsDataPDF_M + pdflist[i] + "\"" }).ToArray();
+
+            }
+
+            //  MessageBox.Show($"lista nume pdf = {parteaNumePdf[0]}, {parteaNumePdf[1]}, {parteaNumePdf[2]}, {parteaNumePdf[3]}");
+
+            ExecutaData();
+        }
+
+
+        public void ExecutaData()
+        {
+
+            for (int i = 0; i < pdflist.Length; i++)
+
+            {
+                //numeFatza = new string[] { front1, front2, front3, front4, front5 };
+
+
+                parteaNumeTOATEPdf += parteaNumePdf[i] + " ";
+
+                //numeFatza = numeFatza.Concat(new string[] { front5 }).ToArray();
+                //parteaNumePdf = parteaNumePdf.Concat(new string[] { numeFatza[i] + "=" + caleData + pdflist[i] + "\"" }).ToArray();
+                //parteaNumePdf = numeFatza[i] + " =" + caleData + pdflist[i] +  "\"";
+                // MessageBox.Show($"i este {i}");
+            }
+
+            //--disableTiledProcessing
+            if (checkBox_vardisableTiledProcessing.Checked)
+            {
+                vardisableTiledProcessing = " --disableTiledProcessing ";
+            }
+            else
+            {
+                vardisableTiledProcessing = "";
+            }
+            if (checkBox_NoCache.Checked)
+            {
+                varNocachevar = " --noCache ";
+            }
+            else
+            {
+                varNocachevar = "";
+            }
+            if (checkBox_OverrideDpi.Checked)
+            {
+                varOverrideDPIvar = " --overrideDPI ";
+            }
+            else
+            {
+                varOverrideDPIvar = "";
+            }
+            
+            
+            if (checkBox_NoComposite.Checked)
+            {
+                varnoCompositeCache = " --noCompositeCache ";
+            }
+            else
+            {
+                varnoCompositeCache = "";
+            }
+
+
+            if (checkBox_OutputText.Checked)
+            {
+
+                 varOutputTextvar = varOutputText;
+            }
+            else
+            {
+                varOutputTextvar = "";
+            }
+
+
+
+
+
+
+            if (checkBox_DuplicateFirst.Checked)
+            {
+                parteaNumeTOATEPdf += parteaNumePdf[0] + " ";
+            }
+            else
+            {
+
+            }
+
+
+            if (checkBox_DuplicateSecond.Checked)
+            {
+                parteaNumeTOATEPdf += parteaNumePdf[1] + " ";
+            }
+            else
+            {
+
+            }
+            
+            if (checkBox_Body.Checked)
+            {
+                //Culoare1 = textBox1_Culoare.Text;
+                //Culoare2 = textBox2_Culoare.Text;
+                //Culoare3 = textBox3_Culoare.Text;
+                //Culoare4 = textBox4_Culoare.Text;
+
+                
+               Culoare1 = comboBoxBody1_Culoare.SelectedValue.ToString();
+                Culoare2 = comboBoxBody2_Culoare.SelectedValue.ToString();
+                Culoare3 = comboBoxBody3_Culoare.SelectedValue.ToString();
+                Culoare4 = comboBoxBody4_Culoare.SelectedValue.ToString();
+
+
+                //front2 = comboBox2Id.SelectedValue.ToString();
+                BodyHas1 = comboBox1_body.SelectedValue.ToString();
+                BodyHas2 = comboBox2_body.SelectedValue.ToString();
+                BodyHas3 = comboBox3_body.SelectedValue.ToString();
+                BodyHas4 = comboBox4_body.SelectedValue.ToString();
+                //BodyHas4 = comboBox4_body.SelectedItem.ToString();
+                ArBodyNone = new string[4] { BodyHas1, BodyHas2, BodyHas3, BodyHas4 };
+                ArBody = new string[] { BodyHas1 };
+                //MessageBox.Show($"ArBody3 este {ArBody[3]}");
+                ArCuloare = new string[4] { Culoare1, Culoare2, Culoare3, Culoare4 };
+
+                for (int i = 0; i < 4; i++)
+
+                {
+
+                    //MessageBox.Show($"i este {i}");
+                    if (ArBodyNone[i] == "none")
+                    {
+                        ArBody = ArBodyNone.Where(val => val != ArBodyNone[i]).ToArray();
+
+                    }
+
+                }
+
+                for (int i = 0; i < ArBody.Length; i++)
+
+                {
+                    ParteaBody += ArBody[i] + "=" + "\"" + ArCuloare[i] + "\"" + " ";
+
+                }
+
+            }
+            else
+            {
+
+            }
+
+
+            if (checkBox_Liquid.Checked)
+            {
+                //Culoare1Lichid = textBox1_Lichid.Text;
+                //Culoare2Lichid = textBox2_Lichid.Text;
+                //Culoare3Lichid = textBox3_Lichid.Text;
+                //Culoare4Lichid = textBox4_Lichid.Text;
+
+                
+ 
+                Culoare1Lichid = comboBoxLichid1_Culoare.SelectedValue.ToString();
+                Culoare2Lichid = comboBoxLichid2_Culoare.SelectedValue.ToString();
+                Culoare3Lichid = comboBoxLichid3_Culoare.SelectedValue.ToString();
+                Culoare4Lichid = comboBoxLichid4_Culoare.SelectedValue.ToString();
+
+
+
+                Lichid1 = comboBox1_lichid.SelectedValue.ToString();
+                Lichid2 = comboBox2_lichid.SelectedValue.ToString();
+                Lichid3 = comboBox3_lichid.SelectedValue.ToString();
+                Lichid4 = comboBox4_lichid.SelectedValue.ToString();
+
+                ArLichidNone = new string[4] { Lichid1, Lichid2, Lichid3, Lichid4 };
+                ArLichid = new string[] { Lichid1 };
+                //MessageBox.Show($"ArBody3 este {ArBody[3]}");
+                ArCuloareLichid = new string[4] { Culoare1Lichid, Culoare2Lichid, Culoare3Lichid, Culoare4Lichid };
+
+                for (int i = 0; i < 4; i++)
+
+                {
+
+                    // MessageBox.Show($"i este {i}");
+                    if (ArLichidNone[i] == "none")
+                    {
+                        ArLichid = ArLichidNone.Where(val => val != ArLichidNone[i]).ToArray();
+
+                    }
+
+                }
+
+                for (int i = 0; i < ArLichid.Length; i++)
+
+                {
+                    ParteaLichid += ArLichid[i] + "=" + "\"" + ArCuloareLichid[i] + "\"" + " ";
+
+                }
+
+            }
+            else
+            {
+
+            }
+
+            string tempTextCommand = "./awtool.sh " + parteaNumeTOATEPdf + " " + ParteaBody + ParteaLichid + varMapping + varArt + varWtempfolder
+                + varDpivar + varTexturevar + varNocachevar+ vardisableTiledProcessing + varOverrideDPIvar+ varnoCompositeCache + varOutputTextvar;
+
+            tempTextCommand = tempTextCommand.Replace("\\", "/");
+            tempTextCommand = tempTextCommand.Replace("D:/AWtoolDATA", "../AWtoolDATA");
+
+            txtBoxCommanda.Text = tempTextCommand;
+
+
+
+        }
+        private void button_scan_Click(object sender, EventArgs e)
+        {
+            listJson.Items.Clear();
+            listPdfs.Items.Clear();
+
+            VerificaCheckboxCale();
+
+            PopuleazaListele();
+        }
+        private void button1_Click(object sender, EventArgs e) // buton scan ----> verificaCheckboxCale
+        {
+            
+
+            
+            
+        }
+
+        private void PopuleazaListele()
+        {
+            string[] files_jsones = Directory.GetFiles(caleAbsDataJson, "*.json");
+
+            foreach (string files_jsone in files_jsones)
+            {
+                listJson.Items.Add(Path.GetFileName(files_jsone));
+            }
+            string[] files = Directory.GetFiles(caleAbsDataPDF, "*.pdf");
+
+            foreach (string file in files)
+            {
+                listPdfs.Items.Add(Path.GetFileName(file));
+                //listView1PDF.Items.Add(Path.GetFileName(file));
+            }
+        }
+
+        private void listJson_SelectedIndexChanged(object sender, EventArgs e) //nimic
+        {
+
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e) // sterge pdf urile din lista
+        {
+            ListBox.SelectedObjectCollection selectedItems = new ListBox.SelectedObjectCollection(listPdfs);
+            selectedItems = listPdfs.SelectedItems;
+
+            if (listPdfs.SelectedIndex != -1)
+            {
+                for (int i = selectedItems.Count - 1; i >= 0; i--)
+                    listPdfs.Items.Remove(selectedItems[i]);
+            }
+
+        }
+
+        private void btnRemoveJson_Click(object sender, EventArgs e)  // sterge jsonurile in plus
+        {
+
+            ListBox.SelectedObjectCollection selectedItems = new ListBox.SelectedObjectCollection(listJson);
+            selectedItems = listJson.SelectedItems;
+
+            if (listJson.SelectedIndex != -1)
+            {
+                for (int i = selectedItems.Count - 1; i >= 0; i--)
+                    listJson.Items.Remove(selectedItems[i]);
+            }
+        }
+
+        public void checkBox_Body_CheckedChanged(object sender, EventArgs e) // nimic
+        {
+            // string checkBox_BodyContents = checkBox_Body.Text;
+
+        }
+        public void btnGenerate_Click(object sender, EventArgs e)
+        {
+
+            parteaNumeTOATEPdf = "";
+            ParteaBody = "";
+            ParteaLichid = "";
+            AdunaData();
+
+
+        }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            //txtBoxCommanda.Copy();
+            Clipboard.SetText(txtBoxCommanda.Text);
+            CreateCommandLineText();
+        }
+
+    
+
+        private void btnAddData_Click(object sender, EventArgs e) // nimic
+        {
+
+        }
+
+       
+
+        private void button1_Add_Click(object sender, EventArgs e) // aduce id manual in toate boxurile
+        {
+            front1Plus = textBox1_ID.Text;
+            front2Plus = textBox1_ID.Text;
+            front3Plus = textBox1_ID.Text;
+            front4Plus = textBox1_ID.Text;
+            front5Plus = textBox1_ID.Text;
+            front6Plus = textBox1_ID.Text;
+            front7Plus = textBox1_ID.Text;
+
+            //comboBox1Id.Items.Add(textBox1_ID.Text);
+            //comboBox2Id.Items.Add(textBox1_ID.Text);
+            //comboBox3Id.Items.Add(textBox1_ID.Text);
+            //comboBox4Id.Items.Add(textBox1_ID.Text);
+            //comboBox5Id.Items.Add(textBox1_ID.Text);
+            //comboBox6Id.Items.Add(textBox1_ID.Text);
+            //comboBox7Id.Items.Add(textBox1_ID.Text);
+
+            listOfParts.Add(new IdFront(textBox1_ID.Text));
+            listOfParts2.Add(new IdFront(textBox1_ID.Text));
+            listOfParts3.Add(new IdFront(textBox1_ID.Text));
+            listOfParts4.Add(new IdFront(textBox1_ID.Text));
+            listOfParts5.Add(new IdFront(textBox1_ID.Text));
+            listOfParts6.Add(new IdFront(textBox1_ID.Text));
+            listOfParts7.Add(new IdFront(textBox1_ID.Text));
+
+        }
+
+
+
+        [DllImport("user32.dll", SetLastError = true)]
+        //private static extern bool BringWindowToTop(IntPtr hWnd);
+
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+        private void btnDirect_Click(object sender, EventArgs e) // execute direct
+        {
+
+
+
+            var prc = Process.GetProcessesByName("cmd");
+            if (prc.Length > 0)
+            {
+                SetForegroundWindow(prc[0].MainWindowHandle);
+
+                Clipboard.SetText(txtBoxCommanda.Text);
+                CreateCommandLineText();
+                Thread.Sleep(800);
+                SendKeys.Send("^+V");
+                Thread.Sleep(500);
+                SendKeys.Send("{ENTER}"); //{ENTER}or ~
+                //Thread.Sleep(1000);
+                //DoMouseClick();
+            }
+
+
+        }
+       
+
+
+
+        private void TextBoxOnClick(object sender, EventArgs eventArgs) // selecteaza tot textul din textbox cale
+        {
+            var textBox = (TextBox)sender;
+            textBox.SelectAll();
+            textBox.Focus();
+            Thread.Sleep(500);
+            textBox1_caleNas.Text = Clipboard.GetText();
+        }
+
+
+        private void textBox1_caleNas_TextChanged(object sender, EventArgs e) // cale de pe ceva nas 
+        {
+            caleAbsData = textBox1_caleNas.Text;
+            label6_exdepath.Text = caleAbsData;
+            //AdCaleaDestinatie(); //localexplorer:\\nas\GRIP\shapes\beiersdorf\09012 - box_30-121-20_FL\
+        }
+
+        private void CreateStringLineText() // creaza command.line.txt
+        {
+
+            string fileName = @"D:\\AWtoolDATA\\String_line.txt";
+
+            try
+            {
+                // Check if file already exists. If yes, delete it.     
+                if (File.Exists(fileName))
+                {
+                    File.Delete(fileName);
+                }
+
+                // Create a new file     
+                using (StreamWriter sw = File.CreateText(fileName))
+                {
+                  
+                    sw.WriteLine(txtBoxCommanda.Text);
+                }
+
+                // Write file contents on console.     
+                using (StreamReader sr = File.OpenText(fileName))
+                {
+                    string s = "";
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        Console.WriteLine(s);
+                    }
+                }
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine(Ex.ToString());
+            }
+
+        }
+        private void CreateCommandLineText() // creaza command.line.txt
+        {
+
+            //string fileName = @"D:\\AWtoolDATA\\command_line.txt";
+            string fileName = @""+caleAbsData+"\\command_line.txt";
+
+            try
+            {
+                // Check if file already exists. If yes, delete it.     
+                if (File.Exists(fileName))
+                {
+                    File.Delete(fileName);
+                }
+
+                // Create a new file     
+                using (StreamWriter sw = File.CreateText(fileName))
+                {
+                    //sw.WriteLine("New file created: {0}", DateTime.Now.ToString());
+                    //sw.WriteLine("Author: Mahesh Chand");
+                    //sw.WriteLine("Add one more line ");
+                    //sw.WriteLine("Add one more line ");
+                    //sw.WriteLine("Done! "); //txtBoxCommanda.Text
+                    sw.WriteLine(txtBoxCommanda.Text);
+                }
+
+                // Write file contents on console.     
+                using (StreamReader sr = File.OpenText(fileName))
+                {
+                    string s = "";
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        Console.WriteLine(s);
+                    }
+                }
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine(Ex.ToString());
+            }
+
+        }
+       
+        public class JsonInfo
+        {
+            public List<string> order { get; set; }
+            public List<string> filter { get; set; }
+            public List<string> inputs { get; set; }
+        }
+
+        public class inputs
+        {
+            public List<string> name { get; set; }
+            public List<string> id { get; set; }
+            public List<string> type { get; set; }
+            public List<string> dpi { get; set; }
+            public List<string> required { get; set; }
+            public List<string> colors { get; set; }
+
+
+        }
+      
+
+        public bool SupportMultipleContent { get; set; }
+        //label6_info.Text = "text";
+        //  public static System.Text.RegularExpressions.Match Match(string input, string pattern, System.Text.RegularExpressions.RegexOptions options)
+        
+        public void LoadJson() // load din json
+            
+        {
+
+          
+                string varTempCaleJson = listJson.Items[0].ToString();
+                string filepath = caleAbsData + varTempCaleJson;
+
+
+
+            //string filepath = "D:\\AWtoolDATA\\proba json\\0989Fisier.json";
+            //StreamReader r = new StreamReader("D:\\AWtoolDATA\\proba json\\0989Fisier.json");
+            using (StreamReader r = new StreamReader(filepath))
+            {
+                string jsonstring = r.ReadToEnd();
+                JObject obj = JObject.Parse(jsonstring);
+                var jsonArray = JArray.Parse(obj["inputs"].ToString()); // e bine
+
+                //JObject objColors = JObject.Parse(obj["inputs"]);
+
+
+                /// mergeeee
+                //var jsonArrayNameColors = JArray.Parse(jsonArray[0]["colors"].ToString());
+
+                //string stringNumeColor = jsonArrayNameColors[0]["name"].ToString();
+
+                //MessageBox.Show($" culori name {stringNumeColor }"); /// MERGEEE
+                /// mergeeee
+
+
+                contorGeneral = jsonArray.Count; // inputurile inputs
+                int jsonArrayLength = jsonArray.Count;
+                //Array.Resize(ref arrayIDdinJson, jsonArray.Count - 1);
+
+
+                arrayIDdinJson = new string[jsonArray.Count];
+                //  arrayIDColorsdinJson = new string[jsonArray.Count];
+
+
+
+                stringNumefatzaDinJson = new string[] { jsonArray[0]["id"].ToString() };
+
+                nameBodyNr = new string[] { "body_1", "body_2", "body_3", "body_4", "none" };
+                nameCuloriNr = new string[] { "liquid_1", "liquid_2", "liquid_3", "liquid_4" };
+
+
+
+                //int contorGeneral { get; set; }
+                contorFronturi = 1;
+                contorBody = 0;
+                contorLichid = 0;
+                contorBodyColor = 0;
+                contorLichidColor = 0;
+
+                for (int i = 1; i < jsonArray.Count; i++)
+                {
+
+                    string stringListaJsonTemp = jsonArray[i]["id"].ToString();
+
+                    for (int a = 0; a < nameBodyNr.Length-1; a++)
+                    {
+
+                        if (stringListaJsonTemp.Contains(nameBodyNr[a]))
+
+                        {
+                            contorBody = contorBody + 1;
+                            contorFronturi = contorFronturi - 1;
+                            string stringListaJsonBody = stringListaJsonTemp;
+                            var jsonArrayNameColorsBody = JArray.Parse(jsonArray[i]["colors"].ToString());
+                            int NumarCulori = jsonArrayNameColorsBody.Count;
+                            contorBodyColor = contorBodyColor + NumarCulori;
+                            for (int j = 0; j < NumarCulori; j++)
+                            {
+                                string stringNumeColorBody = jsonArrayNameColorsBody[j]["name"].ToString();
+                                stringNumefatzaDinJson = stringNumefatzaDinJson.Concat(new string[] { stringNumeColorBody }).ToArray();
+                            }
+
+                        }
+                    }
+                    for (int a = 0; a < nameCuloriNr.Length; a++)
+                    {
+
+                        if (stringListaJsonTemp.Contains(nameCuloriNr[a]))
+
+                        {
+                            contorLichid = contorLichid + 1;
+                            contorFronturi = contorFronturi - 1;
+                            string stringListaJsonBody = stringListaJsonTemp;
+                            var jsonArrayNameColorsBody = JArray.Parse(jsonArray[i]["colors"].ToString());
+                            int NumarCulori = jsonArrayNameColorsBody.Count;
+                            contorLichidColor = contorLichidColor + NumarCulori;
+                            for (int j = 0; j < NumarCulori; j++)
+                            {
+                                string stringNumeColorBody = jsonArrayNameColorsBody[j]["name"].ToString();
+                                stringNumefatzaDinJson = stringNumefatzaDinJson.Concat(new string[] { stringNumeColorBody }).ToArray();
+                            }
+
+                        }
+                    }
+                    stringNumefatzaDinJson = stringNumefatzaDinJson.Concat(new string[] { jsonArray[i]["id"].ToString() }).ToArray();
+
+                    contorFronturi = contorFronturi + 1;
+
+                }
+
+
+
+
+                //MessageBox.Show($" contorGeneral  {contorGeneral}  contorFronturi {contorFronturi}" +
+                //   $" contorBody  {contorBody} contorBodyculoare {contorBodyColor}  " +
+                //  $" contor Lichid  {contorLichid} contorCuloareLichid {contorLichidColor}");
+
+
+                //var resultsbody1 = Array.FindAll(stringNumefatzaDinJson, s => s.Equals(targetbody1)); // da altceva
+
+
+                //  MessageBox.Show($" results {resultsbody1}  {resultslichid1}");
+
+
+                //   Lista1_Load();
+
+
+                for (int i = 0; i < contorFronturi; i++) // fronturi
+                {
+                    string stringListaJsonTemp = jsonArray[i]["id"].ToString();
+                    // if (!String.IsNullOrEmpty(stringListaJsonTemp))
+                    // MessageBox.Show($" stringListaJsonTemp  {stringListaJsonTemp} i  {i}");
+                    arrayIDdinJson[i] = stringListaJsonTemp;
+                    listOfParts.Add(new IdFront(arrayIDdinJson[i]));
+                    listOfParts2.Add(new IdFront(arrayIDdinJson[i]));
+                    listOfParts3.Add(new IdFront(arrayIDdinJson[i]));
+                    listOfParts4.Add(new IdFront(arrayIDdinJson[i]));
+                    listOfParts5.Add(new IdFront(arrayIDdinJson[i]));
+                    listOfParts6.Add(new IdFront(arrayIDdinJson[i]));
+                    listOfParts7.Add(new IdFront(arrayIDdinJson[i]));
+
+
+                }
+                if ((7 - contorFronturi) > 0)
+                {
+                    for (int i = 0; i < 7 - contorFronturi; i++) // fronturi
+                    {
+
+                        listOfParts.Add(new IdFront("none"));
+                        listOfParts2.Add(new IdFront("none"));
+                        listOfParts3.Add(new IdFront("none"));
+                        listOfParts4.Add(new IdFront("none"));
+                        listOfParts5.Add(new IdFront("none"));
+                        listOfParts6.Add(new IdFront("none"));
+                        listOfParts7.Add(new IdFront("none"));
+                    }
+                }
+
+                //contorBody = 0;
+                //contorLichid = 0; jsonArray.Count;
+                if (contorFronturi == contorGeneral - contorLichid) // contorBody=0
+                {
+                    checkBox_Body.CheckState = CheckState.Unchecked;
+                    listOfNameAndColorBody1.Add(new IdBodySiColor("none", "none"));
+                    listOfNameAndColorBody2.Add(new IdBodySiColor("none", "none"));
+                    listOfNameAndColorBody3.Add(new IdBodySiColor("none", "none"));
+                    listOfNameAndColorBody4.Add(new IdBodySiColor("none", "none"));
+
+                }
+
+                else
+                {
+                    for (int i = contorFronturi; i < (contorGeneral - contorLichid); i++) // 
+                    {
+                        string stringListaJsonTemp = jsonArray[i]["id"].ToString();
+
+
+
+                        if (stringListaJsonTemp.Contains("body_1"))
+
+                            checkBox_Body.CheckState = CheckState.Checked;
+                       // checkBox_Body.Checked; 
+                        {
+                            string stringListaJsonBody = stringListaJsonTemp;
+
+                            var jsonArrayNameColorsBody = JArray.Parse(jsonArray[i]["colors"].ToString());
+
+                            int NumarCulori = jsonArrayNameColorsBody.Count;
+
+                            for (int j = 0; j < NumarCulori; j++)
+                            {
+                                string stringNumeColorBody = jsonArrayNameColorsBody[j]["name"].ToString();
+
+
+                                listOfNameAndColorBody1.Add(new IdBodySiColor(stringListaJsonBody, stringNumeColorBody));
+
+                            }
+                           
+                            
+                            
+                            
+                        } // body 1
+
+                        if (stringListaJsonTemp.Contains("body_2"))
+
+                        {
+                            string stringListaJsonBody2 = stringListaJsonTemp;
+
+                            var jsonArrayNameColorsBody2 = JArray.Parse(jsonArray[i]["colors"].ToString());
+
+
+                            int NumarCulori2 = jsonArrayNameColorsBody2.Count;
+
+                            for (int j = 0; j < NumarCulori2; j++)
+                            {
+                                string stringNumeColorBody2 = jsonArrayNameColorsBody2[j]["name"].ToString();
+
+
+                                listOfNameAndColorBody2.Add(new IdBodySiColor(stringListaJsonBody2, stringNumeColorBody2));
+
+                            }
+
+
+                        } //2
+                        if (stringListaJsonTemp.Contains("body_3"))
+
+                        {
+                            string stringListaJsonBody3 = stringListaJsonTemp;
+
+                            var jsonArrayNameColorsBody3 = JArray.Parse(jsonArray[i]["colors"].ToString());
+
+                            int NumarCulori3 = jsonArrayNameColorsBody3.Count;
+
+                            for (int j = 0; j < NumarCulori3; j++)
+                            {
+                                string stringNumeColorBody3 = jsonArrayNameColorsBody3[j]["name"].ToString();
+
+
+                                listOfNameAndColorBody3.Add(new IdBodySiColor(stringListaJsonBody3, stringNumeColorBody3));
+
+                            }
+
+
+
+                        } //3
+
+                        if (stringListaJsonTemp.Contains("body_4"))
+
+                        {
+                            string stringListaJsonBody4 = stringListaJsonTemp;
+
+                            var jsonArrayNameColorsBody4 = JArray.Parse(jsonArray[i]["colors"].ToString());
+
+                            int NumarCulori4 = jsonArrayNameColorsBody4.Count;
+
+                            for (int j = 0; j < NumarCulori4; j++)
+                            {
+                                string stringNumeColorBody4 = jsonArrayNameColorsBody4[j]["name"].ToString();
+
+                                listOfNameAndColorBody4.Add(new IdBodySiColor(stringListaJsonBody4, stringNumeColorBody4));
+                            }
+                        } //4
+
+                        else
+                        {
+                            listOfNameAndColorBody1.Add(new IdBodySiColor("none", "none"));
+                            listOfNameAndColorBody2.Add(new IdBodySiColor("none", "none"));
+                            
+                            listOfNameAndColorBody3.Add(new IdBodySiColor("none", "none"));
+                            listOfNameAndColorBody4.Add(new IdBodySiColor("none", "none"));
+                        }
+
+                        // } ///// asta
+
+                    }
+
+                }
+
+
+
+
+
+
+                //for (int a = 0; a < nameBodyNr.Length; a++)
+                //    {
+
+
+                //        if (stringListaJsonTemp.Contains(nameBodyNr[a]))
+
+                //        {
+                //          string stringListaJsonBody = stringListaJsonTemp;
+
+                //            var jsonArrayNameColorsBody = JArray.Parse(jsonArray[i]["colors"].ToString());
+
+                //            int NumarCulori = jsonArrayNameColorsBody.Count;
+
+                //            for (int j = 0; j < NumarCulori; j++)
+                //            {
+                //                string stringNumeColorBody = jsonArrayNameColorsBody[j]["name"].ToString();
+
+                //                //listOfParts.Add(new Part("Gadget", 5647));
+
+                //                listOfNameAndColorBody1.Add(new IdBodySiColor(stringListaJsonBody, stringNumeColorBody));
+                //                listOfNameAndColorBody2.Add(new IdBodySiColor(stringListaJsonBody, stringNumeColorBody));
+                //                listOfNameAndColorBody3.Add(new IdBodySiColor(stringListaJsonBody, stringNumeColorBody));
+                //                listOfNameAndColorBody4.Add(new IdBodySiColor(stringListaJsonBody, stringNumeColorBody));
+                //            }
+
+
+                //            // MessageBox.Show($" culori name {stringNumeColor}  {stringListaJsonBodysiLichid}");
+                //        }
+                //        //if (!stringListaJsonTemp.Contains(nameBodyNr[a]) || !stringListaJsonTemp.Contains(nameCuloriNr[a]))
+                //        else if (!stringListaJsonTemp.Contains(nameCuloriNr[a]))
+
+                //        {
+
+                //            listOfNameAndColorBody1.Add(new IdBodySiColor("none", "none"));
+                //            listOfNameAndColorBody2.Add(new IdBodySiColor("none", "none"));
+                //            listOfNameAndColorBody3.Add(new IdBodySiColor("none", "none"));
+                //            listOfNameAndColorBody4.Add(new IdBodySiColor("none", "none"));
+                //        }
+
+                //    }
+
+
+
+                //contorBody = 0;
+                //contorLichid = 0; jsonArray.Count;
+                if (contorFronturi + contorBody == contorGeneral) // contorBody=0
+                {
+                    checkBox_Liquid.CheckState = CheckState.Unchecked;
+                    listOfNameAndColorLichid1.Add(new IdLichidSiColor("none", "none"));
+                    listOfNameAndColorLichid2.Add(new IdLichidSiColor("none", "none"));
+                    listOfNameAndColorLichid3.Add(new IdLichidSiColor("none", "none"));
+                    listOfNameAndColorLichid4.Add(new IdLichidSiColor("none", "none"));
+
+                }
+
+                else
+                {
+                    for (int i = contorFronturi + contorBody; i < contorGeneral; i++) // 
+                {
+                    string stringListaJsonTemp = jsonArray[i]["id"].ToString();
+
+
+
+                    if (stringListaJsonTemp.Contains("liquid_1"))
+                            checkBox_Liquid.CheckState = CheckState.Checked;
+                        {
+                        string stringListaJsonBody = stringListaJsonTemp;
+
+                        var jsonArrayNameColorsBody = JArray.Parse(jsonArray[i]["colors"].ToString());
+
+                        int NumarCulori = jsonArrayNameColorsBody.Count;
+
+                        for (int j = 0; j < NumarCulori; j++)
+                        {
+                            string stringNumeColorBody = jsonArrayNameColorsBody[j]["name"].ToString();
+
+
+                            listOfNameAndColorLichid1.Add(new IdLichidSiColor(stringListaJsonBody, stringNumeColorBody));
+
+                        }
+                    }
+                     if (stringListaJsonTemp.Contains("liquid_2"))
+
+                    {
+                        string stringListaJsonBody = stringListaJsonTemp;
+
+                        var jsonArrayNameColorsBody = JArray.Parse(jsonArray[i]["colors"].ToString());
+
+                        int NumarCulori = jsonArrayNameColorsBody.Count;
+
+                        for (int j = 0; j < NumarCulori; j++)
+                        {
+                            string stringNumeColorBody = jsonArrayNameColorsBody[j]["name"].ToString();
+
+
+                            listOfNameAndColorLichid2.Add(new IdLichidSiColor(stringListaJsonBody, stringNumeColorBody));
+
+                        }
+                    }
+                     if (stringListaJsonTemp.Contains("liquid_3"))
+
+                    {
+                        string stringListaJsonBody = stringListaJsonTemp;
+
+                        var jsonArrayNameColorsBody = JArray.Parse(jsonArray[i]["colors"].ToString());
+
+                        int NumarCulori = jsonArrayNameColorsBody.Count;
+
+                        for (int j = 0; j < NumarCulori; j++)
+                        {
+                            string stringNumeColorBody = jsonArrayNameColorsBody[j]["name"].ToString();
+
+
+                            listOfNameAndColorLichid3.Add(new IdLichidSiColor(stringListaJsonBody, stringNumeColorBody));
+
+                        }
+                    }
+                     if (stringListaJsonTemp.Contains("liquid_4"))
+
+                    {
+                        string stringListaJsonBody = stringListaJsonTemp;
+
+                        var jsonArrayNameColorsBody = JArray.Parse(jsonArray[i]["colors"].ToString());
+
+                        int NumarCulori = jsonArrayNameColorsBody.Count;
+
+                        for (int j = 0; j < NumarCulori; j++)
+                        {
+                            string stringNumeColorBody = jsonArrayNameColorsBody[j]["name"].ToString();
+
+                            listOfNameAndColorLichid4.Add(new IdLichidSiColor(stringListaJsonBody, stringNumeColorBody));
+                        }
+                    }
+                    else
+                    {
+
+                        listOfNameAndColorLichid1.Add(new IdLichidSiColor("none", "none"));
+                        listOfNameAndColorLichid2.Add(new IdLichidSiColor("none", "none"));
+                        listOfNameAndColorLichid3.Add(new IdLichidSiColor("none", "none"));
+                        listOfNameAndColorLichid4.Add(new IdLichidSiColor("none", "none"));
+                    }
+
+
+
+
+
+
+
+
+
+
+
+                    //for (int a = 0; a < nameCuloriNr.Length; a++)
+                    //{
+
+
+                    //    if (stringListaJsonTemp.Contains(nameCuloriNr[a]))
+
+                    //    {
+
+                    //        string stringListaJsonBody = stringListaJsonTemp;
+
+                    //        var jsonArrayNameColorsLichid = JArray.Parse(jsonArray[i]["colors"].ToString());
+
+                    //        int NumarCulori = jsonArrayNameColorsLichid.Count;
+
+                    //        for (int j = 0; j < NumarCulori; j++)
+                    //        {
+                    //            string stringNumeColorLichid = jsonArrayNameColorsLichid[j]["name"].ToString();
+
+                    //            //listOfParts.Add(new Part("Gadget", 5647));
+
+                    //            listOfNameAndColorLichid1.Add(new IdLichidSiColor(stringListaJsonBody, stringNumeColorLichid));
+                    //            listOfNameAndColorLichid2.Add(new IdLichidSiColor(stringListaJsonBody, stringNumeColorLichid));
+                    //            listOfNameAndColorLichid3.Add(new IdLichidSiColor(stringListaJsonBody, stringNumeColorLichid));
+                    //            listOfNameAndColorLichid4.Add(new IdLichidSiColor(stringListaJsonBody, stringNumeColorLichid));
+
+                    //        }
+
+
+                    //        // MessageBox.Show($" culori name {stringNumeColor}  {stringListaJsonBodysiLichid}");
+                    //    }
+                    //    //if (!stringListaJsonTemp.Contains(nameBodyNr[a]) || !stringListaJsonTemp.Contains(nameCuloriNr[a]))
+                    //    else if (!stringListaJsonTemp.Contains(nameCuloriNr[a]))
+                    //    {
+                    //        listOfNameAndColorLichid1.Add(new IdLichidSiColor("none", "none"));
+                    //        listOfNameAndColorLichid2.Add(new IdLichidSiColor("none", "none"));
+                    //        listOfNameAndColorLichid3.Add(new IdLichidSiColor("none", "none"));
+                    //        listOfNameAndColorLichid4.Add(new IdLichidSiColor("none", "none"));
+
+                    //    }
+
+                    //}
+
+
+
+                }
+                }
+                
+            }
+            textBoxInfoId.Text = string.Join(", ", stringNumefatzaDinJson);
+            Lista1_Load2();
+
+
+        }
+
+
+     
+      
+        public void Lista1_Load2()
+        {
+
+          
+                       
+            //contorFronturi 
+            //contorBody
+            //contorLichid
+
+
+            int iNrCombo = 0;
+            foreach (Control x in panel1Fronturi.Controls)
+            {
+                if (x is ComboBox)
+                {
+
+                    ((ComboBox)x).DisplayMember = "IdFrontName";
+                    ((ComboBox)x).ValueMember = "IdFrontName";
+                    
+                    //if (iNrCombo <  contorFronturi)
+                    //{ 
+                        
+                        ((ComboBox)x).SelectedIndex = iNrCombo ;
+                        iNrCombo++;
+                    
+                }
+            }
+
+
+            //IdBodyName = nameForBody;
+            //IdBodyColor = nameForColor;
+            //cati body sunt in lista
+            // listOfNameAndColorBody1
+
+
+
+            int CountBody = 0;
+            foreach (Control x in panel_body.Controls)
+            {
+                if (x is ComboBox)
+                {
+
+                    ((ComboBox)x).DisplayMember = "IdBodyName"; //"IdBodyName";
+                    ((ComboBox)x).ValueMember = "IdBodyName"; //"IdBodyName";
+                    string foundString = ((ComboBox)x).FindStringExact("none").ToString();
+                    int foundIndex = ((ComboBox)x).FindStringExact(nameBodyNr[CountBody]);
+
+                    //MessageBox.Show($" foundIndex  {foundIndex}");
+
+                    //((ComboBox)x).SelectedIndex = foundIndex; /// A MERS ASA 
+
+                    if (foundIndex == -1)
+                    {
+                        // ((ComboBox)x).SelectedIndex = ((ComboBox)x).FindStringExact(nameBodyNr[CountBody]);
+                       // MessageBox.Show($" foundIndex 2 {foundIndex}");
+                        ((ComboBox)x).SelectedIndex = ((ComboBox)x).FindStringExact("none");
+                    }
+                    else
+                    {
+                        ((ComboBox)x).SelectedIndex = foundIndex;
+                    }
+
+                        CountBody++;
+
+
+                }
+            }
+
+                            int CountColorBody = 0;
+                            foreach (Control x in panelColorBody.Controls)
+                            {
+                                if (x is ComboBox)
+                                {
+
+                                    ((ComboBox)x).DisplayMember = "IdBodyColor";  //"ColorsBodyName"; 
+                                    ((ComboBox)x).ValueMember = "IdBodyColor"; //"ColorsBodyName"; 
+
+                                    // ((ComboBox)x).SelectedIndex = 0;  //
+                                    CountColorBody++;
+                    
+                                }
+
+                            }
+
+            //IdLichidName = nameForLichid;
+            //IdLichidColor = nameForLichidColor;
+
+
+            int CountLichid = 0;
+            foreach (Control x in panelLichid.Controls)
+            {
+                if (x is ComboBox)
+                {
+
+                    ((ComboBox)x).DisplayMember = "IdLichidName"; 
+                    ((ComboBox)x).ValueMember = "IdLichidName";
+                    string foundString = ((ComboBox)x).FindStringExact("none").ToString();
+                    int foundIndex = ((ComboBox)x).FindString(nameCuloriNr[CountLichid]);
+                    
+                    if (foundIndex == -1)
+                    {
+                        //  MessageBox.Show($" foundIndex  {foundIndex}");
+                        // ((ComboBox)x).SelectedIndex = "IdLichidName";  
+                        //((ComboBox)x).SelectedIndex = ((ComboBox)x).FindStringExact(nameCuloriNr[CountLichid]);
+                        // ((ComboBox)x).SelectedIndex = ((ComboBox)x).FindStringExact(nameCuloriNr[CountLichid]);
+                        ((ComboBox)x).SelectedIndex = ((ComboBox)x).FindStringExact("none");
+
+                    } else
+                    {
+                        ((ComboBox)x).SelectedIndex = foundIndex;
+                        //((ComboBox)x).SelectedIndex = ((ComboBox)x).FindStringExact(nameCuloriNr[CountLichid]);
+                    }
+                  //  MessageBox.Show($" nameBodyNr[CountBody]  {nameCuloriNr[CountLichid]}");
+                    CountLichid++;
+
+
+                }
+            }
+                            int CountCuloareLichid = 0;
+                            foreach (Control x in panelColorLichid.Controls)
+                            {
+                                if (x is ComboBox)
+                                {
+
+                                    ((ComboBox)x).DisplayMember = "IdLichidColor";
+                                    ((ComboBox)x).ValueMember = "IdLichidColor";
+
+                                  //  ((ComboBox)x).SelectedIndex = 0;
+
+                                    CountCuloareLichid++;
+                   
+                                }
+                            }
+
+
+
+           // textBox1_Lichid.Text = listOfParts.ElementAt(1).IdFrontName; // merge
+
+
+        }
+
+        private void buttonReadJson_Click(object sender, EventArgs e)
+        {
+            // MessageBox.Show($"cale abs data json file={caleAbsDataJsonFile}");
+            Lista1_Load();
+            LoadJson();
+            
+
+            //MessageBox.Show($"i este {caleAbsDataJsonFile}");
+        }
+        
+        public void Lista1_Load()
+        {
+            listOfParts = new BindingList<IdFront>();
+            listOfParts2 = new BindingList<IdFront>();
+            listOfParts3 = new BindingList<IdFront>();
+            listOfParts4 = new BindingList<IdFront>();
+            listOfParts5 = new BindingList<IdFront>();
+            listOfParts6 = new BindingList<IdFront>();
+            listOfParts7 = new BindingList<IdFront>();
+
+          
+
+            listOfNameAndColorBody1 = new BindingList<IdBodySiColor>();
+            listOfNameAndColorBody2 = new BindingList<IdBodySiColor>();
+            listOfNameAndColorBody3 = new BindingList<IdBodySiColor>();
+            listOfNameAndColorBody4 = new BindingList<IdBodySiColor>();
+
+            listOfNameAndColorBody1 = new BindingList<IdBodySiColor>();
+            listOfNameAndColorBody2 = new BindingList<IdBodySiColor>();
+            listOfNameAndColorBody3 = new BindingList<IdBodySiColor>();
+            listOfNameAndColorBody4 = new BindingList<IdBodySiColor>();
+
+
+            listOfNameAndColorLichid1 = new BindingList<IdLichidSiColor>();
+            listOfNameAndColorLichid2 = new BindingList<IdLichidSiColor>();
+            listOfNameAndColorLichid3 = new BindingList<IdLichidSiColor>();
+            listOfNameAndColorLichid4 = new BindingList<IdLichidSiColor>();
+
+            listOfNameAndColorLichid1 = new BindingList<IdLichidSiColor>();
+            listOfNameAndColorLichid2 = new BindingList<IdLichidSiColor>();
+            listOfNameAndColorLichid3 = new BindingList<IdLichidSiColor>();
+            listOfNameAndColorLichid4 = new BindingList<IdLichidSiColor>();
+
+            comboBox1Id.DataSource = listOfParts;
+            comboBox2Id.DataSource = listOfParts2;
+            comboBox3Id.DataSource = listOfParts3;
+            comboBox4Id.DataSource = listOfParts4;
+            comboBox5Id.DataSource = listOfParts5;
+            comboBox6Id.DataSource = listOfParts6;
+            comboBox7Id.DataSource = listOfParts7;
+
+
+            //comboBox1_body
+            comboBox1_body.DataSource = listOfNameAndColorBody1; 
+            comboBox2_body.DataSource = listOfNameAndColorBody2;
+            comboBox3_body.DataSource = listOfNameAndColorBody3;
+            comboBox4_body.DataSource = listOfNameAndColorBody4;
+
+            comboBoxBody1_Culoare.DataSource = listOfNameAndColorBody1;
+            comboBoxBody2_Culoare.DataSource = listOfNameAndColorBody2;
+            comboBoxBody3_Culoare.DataSource = listOfNameAndColorBody3;
+            comboBoxBody4_Culoare.DataSource = listOfNameAndColorBody4;
+
+            //comboBox1_lichid
+            comboBoxLichid1_Culoare.DataSource = listOfNameAndColorLichid1;
+            comboBoxLichid2_Culoare.DataSource = listOfNameAndColorLichid2;
+            comboBoxLichid3_Culoare.DataSource = listOfNameAndColorLichid3;
+            comboBoxLichid4_Culoare.DataSource = listOfNameAndColorLichid4;
+
+
+            comboBox1_lichid.DataSource = listOfNameAndColorLichid1;
+            comboBox2_lichid.DataSource = listOfNameAndColorLichid2;
+            comboBox3_lichid.DataSource = listOfNameAndColorLichid3;
+            comboBox4_lichid.DataSource = listOfNameAndColorLichid4;
+
+
+
+        }
+
+
+
+        BindingList<IdFront> listOfParts;
+        BindingList<IdFront> listOfParts2;
+        BindingList<IdFront> listOfParts3;
+        BindingList<IdFront> listOfParts4;
+        BindingList<IdFront> listOfParts5;
+        BindingList<IdFront> listOfParts6;
+        BindingList<IdFront> listOfParts7;
+
+
+        BindingList<IdBodySiColor> listOfNameAndColorBody1; // BindingList<IdLichid> listOfNameLiquid1;
+        BindingList<IdBodySiColor> listOfNameAndColorBody2;
+        BindingList<IdBodySiColor> listOfNameAndColorBody3;
+        BindingList<IdBodySiColor> listOfNameAndColorBody4;
+        
+        BindingList<IdLichidSiColor> listOfNameAndColorLichid1; // BindingList<IdLichid> listOfNameLiquid1;
+        BindingList<IdLichidSiColor> listOfNameAndColorLichid2;
+        BindingList<IdLichidSiColor> listOfNameAndColorLichid3;
+        BindingList<IdLichidSiColor> listOfNameAndColorLichid4;
+
+    
+
+
+        public class IdFront
+        {
+
+                public string IdFrontName
+                {
+                    get;
+                    set;
+                }
+                public IdFront(string n)
+                {
+
+                    IdFrontName = n;
+                }
+        }
+        public class IdBody
+        {
+
+            public string IdBodyName
+            {
+                get;
+                set;
+            }
+            public IdBody(string n)
+            {
+
+                IdBodyName = n;
+            }
+        }
+
+
+
+
+        public class IdBodySiColor
+        {
+            private string namebody;
+            private string namebodyColor;
+            public IdBodySiColor() { }
+            public IdBodySiColor(string nameForBody, string nameForColor)
+            {
+                IdBodyName = nameForBody;
+                IdBodyColor = nameForColor;
+            }
+
+            public string IdBodyName
+            {
+                get { return namebody; }
+                set { namebody = value; }
+            }
+
+            public string IdBodyColor
+            {
+                get { return namebodyColor; }
+                set { namebodyColor = value; }
+            }
+        }
+
+        public class IdLichidSiColor 
+        {
+            private string nameLichid;
+            private string nameLichidColor;
+            public IdLichidSiColor() { }
+            public IdLichidSiColor(string nameForLichid, string nameForLichidColor)
+            {
+                IdLichidName = nameForLichid;
+                IdLichidColor = nameForLichidColor;
+            }
+
+            public string IdLichidName
+            {
+                get { return nameLichid; }
+                set { nameLichid = value; }
+            }
+
+            public string IdLichidColor
+            {
+                get { return nameLichidColor; }
+                set { nameLichidColor = value; }
+            }
+        }
+
+
+        public class IdLichid
+        {
+
+            public string IdLichidName
+            {
+                get;
+                set;
+            }
+            public IdLichid(string n)
+            {
+
+                IdLichidName = n;
+            }
+        }
+
+        public class ColorsBody
+        {
+
+                public string ColorsBodyName
+                {
+                    get;
+                    set;
+                }
+                 public ColorsBody(string n)
+                {
+
+                    ColorsBodyName = n;   //ColorsBodyName  ColorsLiquidName
+                }
+        }
+         public class ColorsLiquid
+        {
+
+                public string ColorsLiquidName
+                {
+                    get;
+                    set;
+                }
+                public ColorsLiquid(string n)
+                {
+
+                    ColorsLiquidName = n;
+                }
+        }
+
+
+
+
+        //public class Part
+        //{
+        //    private string name;
+        //    private int number;
+        //    public Part() { }
+        //    public Part(string nameForPart, int numberForPart)
+        //    {
+        //        PartName = nameForPart;
+        //        PartNumber = numberForPart;
+        //    }
+
+        //    public string PartName
+        //    {
+        //        get { return name; }
+        //        set { name = value; }
+        //    }
+
+        //    public int PartNumber
+        //    {
+        //        get { return number; }
+        //        set { number = value; }
+        //    }
+        //}
+
+
+
+
+        private void GenerateBatchCommand_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_OpenCale_Click(object sender, EventArgs e)
+        {
+          //  Process.Start(@"c:\test"); //caleAbsData
+           // Process.Start(@"\\nas\GRIP\shapes\_FailedOrders\012345 temp proba\");
+            Process.Start("explorer.exe", @caleAbsData);
+        }
+
+       
+    }
+
+
+}
