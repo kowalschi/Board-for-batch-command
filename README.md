@@ -1,0 +1,2 @@
+My C# app automates complex file management processes, simplifying tasks like copying files from a server to local, executing commands in CMD, and monitoring the creation of output files. It waits for processes to complete and automatically transfers the results back to the server. This automation streamlines workflows, reduces manual effort, and ensures reliability in handling large or repetitive file tasks, making it a powerful tool for improving efficiency.
+![appcsharp](https://github.com/user-attachments/assets/f57edca3-3779-49f2-965b-72a46a0eb9ea)
