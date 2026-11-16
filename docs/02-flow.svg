@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 350" role="img" aria-label="Six stages: clipboard, checks, command, run, watch, deliver">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1f1d1a"/></marker>
+  </defs>
+  <style>text{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;fill:#1f1d1a}.t{font-size:15px;font-weight:700}.s{font-size:12.5px;fill:#5b564e}</style>
+  <rect width="900" height="350" rx="12" fill="#f6f1e7"/>
+
+  <g>
+    <rect x="35" y="40" width="250" height="105" rx="6" fill="#fff" stroke="#1f1d1a" stroke-width="2"/>
+    <text x="51" y="70" class="t">1 · Clipboard</text>
+    <text x="51" y="96" class="s">You copy the job link;</text>
+    <text x="51" y="114" class="s">the app notices and takes it</text>
+
+    <rect x="325" y="40" width="250" height="105" rx="6" fill="#fff" stroke="#1f1d1a" stroke-width="2"/>
+    <text x="341" y="70" class="t">2 · Checks</text>
+    <text x="341" y="96" class="s">Folder reachable, mapping file</text>
+    <text x="341" y="114" class="s">present, ink and file names valid</text>
+
+    <rect x="615" y="40" width="250" height="105" rx="6" fill="#fff" stroke="#1f1d1a" stroke-width="2"/>
+    <text x="631" y="70" class="t">3 · Command</text>
+    <text x="631" y="96" class="s">Built from the job's files and</text>
+    <text x="631" y="114" class="s">the options chosen in the window</text>
+
+    <rect x="35" y="205" width="250" height="105" rx="6" fill="#fff" stroke="#1f1d1a" stroke-width="2"/>
+    <text x="51" y="235" class="t">4 · Run</text>
+    <text x="51" y="261" class="s">Files copied to the workstation,</text>
+    <text x="51" y="279" class="s">command pasted in the console</text>
+
+    <rect x="325" y="205" width="250" height="105" rx="6" fill="#fff" stroke="#1f1d1a" stroke-width="2"/>
+    <text x="341" y="235" class="t">5 · Watch</text>
+    <text x="341" y="261" class="s">Waits for the result file to</text>
+    <text x="341" y="279" class="s">appear and to be fully written</text>
+
+    <rect x="615" y="205" width="250" height="105" rx="6" fill="#fff" stroke="#c8502a" stroke-width="2.5"/>
+    <text x="631" y="235" class="t">6 · Deliver</text>
+    <text x="631" y="261" class="s">Result copied to the server;</text>
+    <text x="631" y="279" class="s">sound, taskbar flash, message</text>
+  </g>
+
+  <g stroke="#1f1d1a" stroke-width="2" fill="none" marker-end="url(#a)">
+    <path d="M285 92L321 92"/>
+    <path d="M575 92L611 92"/>
+    <path d="M740 145L740 175L160 175L160 201"/>
+    <path d="M285 257L321 257"/>
+    <path d="M575 257L611 257"/>
+  </g>
+</svg>

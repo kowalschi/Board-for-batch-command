@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 310" role="img" aria-label="Controls in the window on the top row, the parts of the command line they produce on the bottom row">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1f1d1a"/></marker>
+  </defs>
+  <style>text{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;fill:#1f1d1a}.h{font-size:14px;font-weight:700}.b{font-size:12.5px;text-anchor:middle}.m{font-family:Consolas,Menlo,monospace;font-size:12.5px;font-weight:700;fill:#fff;text-anchor:middle}.s{font-size:13.5px}</style>
+  <rect width="900" height="310" rx="12" fill="#f6f1e7"/>
+
+  <text x="29" y="42" class="h">In the window</text>
+  <g>
+    <rect x="29" y="56" width="100" height="50" rx="4" fill="#fff" stroke="#1f1d1a" stroke-width="1.5"/><text x="79" y="78" class="b">fixed</text><text x="79" y="95" class="b">by the app</text>
+    <rect x="135" y="56" width="100" height="50" rx="4" fill="#fff" stroke="#1f1d1a" stroke-width="1.5"/><text x="185" y="78" class="b">7 PDF slots,</text><text x="185" y="95" class="b">one per part</text>
+    <rect x="241" y="56" width="100" height="50" rx="4" fill="#fff" stroke="#1f1d1a" stroke-width="1.5"/><text x="291" y="78" class="b">8 colour</text><text x="291" y="95" class="b">lists</text>
+    <rect x="347" y="56" width="100" height="50" rx="4" fill="#fff" stroke="#1f1d1a" stroke-width="1.5"/><text x="397" y="78" class="b">read from</text><text x="397" y="95" class="b">the job folder</text>
+    <rect x="453" y="56" width="100" height="50" rx="4" fill="#fff" stroke="#1f1d1a" stroke-width="1.5"/><text x="503" y="78" class="b">path filled</text><text x="503" y="95" class="b">in by the app</text>
+    <rect x="559" y="56" width="100" height="50" rx="4" fill="#fff" stroke="#1f1d1a" stroke-width="1.5"/><text x="609" y="86" class="b">drop-down</text>
+    <rect x="665" y="56" width="100" height="50" rx="4" fill="#fff" stroke="#1f1d1a" stroke-width="1.5"/><text x="715" y="86" class="b">drop-down</text>
+    <rect x="771" y="56" width="100" height="50" rx="4" fill="#fff" stroke="#1f1d1a" stroke-width="1.5"/><text x="821" y="86" class="b">8 checkboxes</text>
+  </g>
+
+  <g stroke="#1f1d1a" stroke-width="1.5" fill="none" marker-end="url(#a)">
+    <path d="M79 106L79 160"/><path d="M185 106L185 160"/><path d="M291 106L291 160"/><path d="M397 106L397 160"/>
+    <path d="M503 106L503 160"/><path d="M609 106L609 160"/><path d="M715 106L715 160"/><path d="M821 106L821 160"/>
+  </g>
+
+  <g>
+    <rect x="29" y="164" width="100" height="46" fill="#1f1d1a"/><text x="79" y="192" class="m">tool</text>
+    <rect x="135" y="164" width="100" height="46" fill="#c8502a"/><text x="185" y="192" class="m">PDF files</text>
+    <rect x="241" y="164" width="100" height="46" fill="#1f1d1a"/><text x="291" y="192" class="m">part="colour"</text>
+    <rect x="347" y="164" width="100" height="46" fill="#c8502a"/><text x="397" y="192" class="m">mapping</text>
+    <rect x="453" y="164" width="100" height="46" fill="#1f1d1a"/><text x="503" y="192" class="m">output</text>
+    <rect x="559" y="164" width="100" height="46" fill="#c8502a"/><text x="609" y="192" class="m">DPI</text>
+    <rect x="665" y="164" width="100" height="46" fill="#1f1d1a"/><text x="715" y="192" class="m">texture</text>
+    <rect x="771" y="164" width="100" height="46" fill="#c8502a"/><text x="821" y="192" class="m">--switches</text>
+  </g>
+  <text x="29" y="236" class="h">In the command line</text>
+
+  <text x="450" y="278" text-anchor="middle" class="s">Change any control and the command is rewritten at once. No typing, no typos.</text>
+</svg>
